@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../utils/api";
 import { FaEye, FaChartBar, FaPenFancy } from "react-icons/fa";
 import Lottie from 'lottie-react';
+
+import api from "../utils/api";
 import LoadingAnimation from "../assets/LoadingAnimation.json";
+
+import { NavigationBar } from "../components/dashboard";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -73,13 +76,6 @@ const DashboardPage = () => {
     }
   }
 
-   // Logout function
-   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/");
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-100">
 
@@ -98,11 +94,7 @@ const DashboardPage = () => {
           </div>
       </div>
 
-      {/* Navigation Bar */}
-      <nav className="bg-white shadow-lg p-4 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-800 font-serif">📔 My Smart Diary</h1>
-        <button className="text-gray-600 hover:text-gray-800" onClick={handleLogout}>🗝️ Logout</button>
-      </nav>
+      <NavigationBar />
 
       {/* Dashboard Cards */}
       <div className="container mx-auto py-8 px-4">
