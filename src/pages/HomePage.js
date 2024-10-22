@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
+import { useNavigate } from "react-router-dom"; // For redirecting
+import { jwtDecode } from "jwt-decode";
+
 import LandingPageAnimation from '../assets/LandingPageAnimation.json';
 import api from "../utils/api"; // Axios instance with JWT handling
-import { useNavigate } from "react-router-dom"; // For redirecting
 
 const HomePage = () => {
     const [isLogin, setIsLogin] = useState(true); // State to toggle between Login and Register form
@@ -15,6 +17,17 @@ const HomePage = () => {
     const toggleForm = () => {
         setIsLogin(!isLogin);
     };
+
+    const token = localStorage.getItem("token");
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        const isTokenExpired = Date.now() >= decodedToken.exp * 1000;
+        if (isTokenExpired) {
+            localStorage.removeItem("token");
+        } else {
+            navigate("/dashboard");
+        }
+    }
 
     // Effect to clear error after 5 seconds
     useEffect(() => {
