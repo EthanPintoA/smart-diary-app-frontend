@@ -30,6 +30,25 @@ const DashboardPage = () => {
     }
   }, [navigate, success, error]);
 
+  const ActiveTab = () => {
+    switch (activeTab) {
+      case "viewDiaries":
+        return <ViewDiaries />;
+      case "graphs":
+        return <Graphs />;
+      case "newDiary":
+        return (
+          <NewDiaryEntryForm setError={setError} setSuccess={setSuccess} />
+        );
+      default:
+        return (
+          <p className="text-center text-gray-600">
+            Select an option above to get started.
+          </p>
+        );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-100">
 
@@ -55,20 +74,7 @@ const DashboardPage = () => {
 
         {/* Dynamic Content Area */}
         <div className="mt-8">
-          {activeTab === "default" && (
-            <p className="text-center text-gray-600">Select an option above to get started.</p>
-          )}
-
-          {/* View Diaries */}
-          {activeTab === "viewDiaries" && <ViewDiaries />}
-
-          {/* Graphs */}
-          {activeTab === "graphs" && <Graphs />}
-
-          {/* New Diary Entry Form */}
-          {activeTab === "newDiary" && (
-            <NewDiaryEntryForm setError={setError} setSuccess={setSuccess} />
-          )}
+          <ActiveTab />
         </div>
       </div>
     </div>
