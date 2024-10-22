@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaChartBar, FaPenFancy } from "react-icons/fa";
 import Lottie from 'lottie-react';
 
 import api from "../utils/api";
 import LoadingAnimation from "../assets/LoadingAnimation.json";
 
-import { NavigationBar } from "../components/dashboard";
+import { NavigationBar, DashboardCards } from "../components/dashboard";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -96,37 +95,8 @@ const DashboardPage = () => {
 
       <NavigationBar />
 
-      {/* Dashboard Cards */}
       <div className="container mx-auto py-8 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          {/* View Diaries Card */}
-          <div
-            onClick={() => setActiveTab("viewDiaries")}
-            className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl cursor-pointer transition-transform transform hover:scale-105 bg-opacity-70 backdrop-blur-md hover:bg-opacity-90"
-          >
-            <h2 className="text-2xl font-bold mb-4 flex items-center"><FaEye className="mr-2 text-blue-500"/>View Diaries</h2>
-            <p className="text-gray-600">Explore your past entries and reflect on your journey.</p>
-          </div>
-
-          {/* New Diary Entry Card */}
-          <div
-            onClick={() => setActiveTab("newDiary")}
-            className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl cursor-pointer transition-transform transform hover:scale-105 bg-opacity-70 backdrop-blur-md hover:bg-opacity-90"
-          >
-            <h2 className="text-2xl font-bold mb-4 flex items-center"><FaPenFancy className="mr-2 text-purple-500"/>New Diary Entry</h2>
-            <p className="text-gray-600">Pen down your thoughts and experiences today.</p>
-          </div>
-
-          {/* Graphs (Emotional Trends) Card */}
-          <div
-            onClick={() => setActiveTab("graphs")}
-            className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl cursor-pointer transition-transform transform hover:scale-105 bg-opacity-70 backdrop-blur-md hover:bg-opacity-90"
-          >
-            <h2 className="text-2xl font-bold mb-4 flex items-center"><FaChartBar className="mr-2 text-green-500"/>Graphs</h2>
-            <p className="text-gray-600">Analyze emotional trends and insights with visual graphs.</p>
-          </div>
-        </div>
+        <DashboardCards setActiveTab={setActiveTab} />
 
         {/* Dynamic Content Area */}
         <div className="mt-8">
