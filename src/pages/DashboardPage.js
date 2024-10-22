@@ -5,7 +5,11 @@ import Lottie from 'lottie-react';
 import api from "../utils/api";
 import LoadingAnimation from "../assets/LoadingAnimation.json";
 
-import { NavigationBar, DashboardCards } from "../components/dashboard";
+import {
+  NavigationBar,
+  DashboardCards,
+  ViewDiaries,
+} from "../components/dashboard";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -105,12 +109,7 @@ const DashboardPage = () => {
           )}
 
           {/* View Diaries */}
-          {activeTab === "viewDiaries" && (
-            <div className="bg-white p-6 rounded-xl shadow-lg bg-opacity-70 backdrop-blur-md">
-              <h2 className="text-xl font-bold mb-4">Your Previous Diaries</h2>
-              <p className="text-gray-600">[Here we will display a list of all diary entries.]</p>
-            </div>
-          )}
+          {activeTab === "viewDiaries" && <ViewDiaries />}
 
           {/* Graphs */}
           {activeTab === "graphs" && (
