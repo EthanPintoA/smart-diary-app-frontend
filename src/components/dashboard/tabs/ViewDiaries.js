@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaPenFancy } from "react-icons/fa";
+import { FaPenFancy, FaTrash } from "react-icons/fa";
 
 import api from "../../../utils/api";
 import UpdateDiaryEntryForm from "./ViewDiaries/UpdateDiaryEntryForm";
@@ -10,15 +10,27 @@ import UpdateDiaryEntryForm from "./ViewDiaries/UpdateDiaryEntryForm";
  * @param {{
  * diaryEntry: Object,
  * setEdit: React.Dispatch<React.SetStateAction<string>>
+ * setDiaries: React.Dispatch<React.SetStateAction<Object[]>>
+ * setError: React.Dispatch<React.SetStateAction<string>>
  * }} props
  * @returns {JSX.Element} Entry
  */
-const Entry = ({ diary, setEdit }) => {
+const Entry = ({ diary, setEdit, setDiaries, setError }) => {
   const [expanded, setExpanded] = useState(false);
   const toggleExpanded = () => setExpanded(!expanded);
   const handleEdit = (event) => {
     event.stopPropagation();
     setEdit(diary.id);
+  };
+  const handleDelete = (event) => {
+    event.stopPropagation();
+
+    api
+      .delete(`/entries/${diary.id}`)
+      .then(() => {
+        setDiaries((diaries) => diaries.filter((d) => d.id !== diary.id));
+      })
+      .catch((_) => setError("Failed to delete diary entry"));
   };
 
   return (
@@ -34,7 +46,10 @@ const Entry = ({ diary, setEdit }) => {
             {new Date(diary.createdAt).toLocaleDateString()}
           </h3>
           {expanded ? (
-            <FaPenFancy className="ml-2 text-purple-500" onClick={handleEdit} />
+            <FaPenFancy className="ml-4 text-purple-500" onClick={handleEdit} />
+          ) : null}
+          {expanded ? (
+            <FaTrash className="ml-4 text-red-500" onClick={handleDelete} />
           ) : null}
         </div>
         <p
@@ -105,7 +120,13 @@ const ViewDiaries = ({ setError, setSuccess }) => {
   }
 
   const rows = diaries.map((diary) => (
-    <Entry key={diary._id} diary={diary} setEdit={setEdit} />
+    <Entry
+      key={diary._id}
+      diary={diary}
+      setEdit={setEdit}
+      setDiaries={setDiaries}
+      setError={setError}
+    />
   ));
 
   return (
