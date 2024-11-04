@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from "react";
 
-import api from "../../../utils/api";
-import TextArea from "../DiaryEntryFormTextArea";
+import api from "../../../../utils/api";
+import TextArea from "../../DiaryEntryFormTextArea";
 
 /**
  * New Diary Entry Form component
  *
  * @param {{
+ *  diaryEntry: Object,
  *  setError: React.Dispatch<React.SetStateAction<string>>,
- *  setSuccess: React.Dispatch<React.SetStateAction<boolean>
+ *  setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+ *  setEdit: React.Dispatch<React.SetStateAction<boolean>>,
  * }} props
  * @returns {JSX.Element} NewDiaryEntryForm
  */
-const NewDiaryEntryForm = ({ setError, setSuccess }) => {
+const UpdateDiaryEntryForm = ({
+  diaryEntry,
+  setError,
+  setSuccess,
+  setEdit,
+}) => {
   const [entryText, setEntryText] = useState("");
   const [gptResponse, setGptResponse] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => setEntryText(diaryEntry.text_entry), []);
 
   useEffect(() => {
     if (gptResponse) {
@@ -54,7 +63,9 @@ const NewDiaryEntryForm = ({ setError, setSuccess }) => {
     }
 
     try {
-      const response = await api.post("/entries", { text_entry: entryText });
+      const response = await api.put(`/entries/${diaryEntry.id}`, {
+        text_entry: entryText,
+      });
       if (response.data.entry.auto_response) {
         setGptResponse(response.data.entry.auto_response);
         setSuccess(true);
@@ -91,6 +102,14 @@ const NewDiaryEntryForm = ({ setError, setSuccess }) => {
         </button>
       </form>
 
+      {/* Back Button */}
+      <button
+        onClick={() => setEdit(null)} // Note: setEdit(null) will close the form and go back to the ViewDiaries tab
+        className="mt-4 w-full bg-gray-500 text-white font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:bg-gray-600"
+      >
+        Back
+      </button>
+
       {/* Display GPT-3 Response */}
       {gptResponse && (
         <div className="mt-6 bg-blue-100 p-4 rounded-lg shadow-md">
@@ -104,4 +123,4 @@ const NewDiaryEntryForm = ({ setError, setSuccess }) => {
   );
 };
 
-export default NewDiaryEntryForm;
+export default UpdateDiaryEntryForm;

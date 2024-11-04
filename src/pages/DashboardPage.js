@@ -33,7 +33,7 @@ const DashboardPage = () => {
   const ActiveTab = () => {
     switch (activeTab) {
       case "viewDiaries":
-        return <ViewDiaries />;
+        return <ViewDiaries setError={setError} setSuccess={setSuccess} />;
       case "graphs":
         return <Graphs />;
       case "newDiary":

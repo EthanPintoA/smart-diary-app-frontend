@@ -25,7 +25,7 @@ const DashboardCards = ({ setActiveTab }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <Card
-        title="View Diaries"
+        title="View Diary Entries"
         icon={<FaEye className="text-blue-500" />}
         description="Explore your past entries and reflect on your journey."
         onClick={() => setActiveTab("viewDiaries")}
